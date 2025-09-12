@@ -1,7 +1,9 @@
 import React from 'react';
-import { PieChart } from 'lucide-react';
-import { Chart } from '@sisense/sdk-ui';
-import { retensa_separation_type_distribution_csv } from '../../RetensaTurnoverAnalytics';
+import { PieChart as PieChartIcon } from 'lucide-react';
+import { PieChart } from '@sisense/sdk-ui';
+import type { HighchartsOptions } from '@sisense/sdk-ui';
+// Import the main DataSource
+import { DataSource, retensa_separation_type_distribution_csv } from '../../RetensaTurnoverAnalytics';
 import BaseKPIWidget from '../BaseKPIWidget';
 
 interface SeparationTypeDistributionWidgetProps {
@@ -13,28 +15,48 @@ const SeparationTypeDistributionWidget: React.FC<SeparationTypeDistributionWidge
   id,
   onMove
 }) => {
+  // Define the callback function to customize chart options before rendering
+  const handleBeforeRender = (options: HighchartsOptions) => {
+    // Safely set advanced options for the pie chart
+    options.plotOptions = {
+      ...options.plotOptions,
+      pie: {
+        ...options.plotOptions?.pie,
+        innerSize: '60%', // Set the innerSize here for the donut effect
+        dataLabels: {
+          enabled: true,
+          format: '{point.percentage:.1f}%', // Format to show percentage
+        },
+      },
+    };
+    return options;
+  };
+
   return (
     <BaseKPIWidget
       id={id}
       title="Separation Types"
       value=""
       subtitle="Distribution breakdown"
-      icon={<PieChart size={20} />}
+      icon={<PieChartIcon size={20} />}
       color="secondary"
       onMove={onMove}
     >
       <div style={{ marginTop: '16px', height: '200px' }}>
-        <Chart
-          dataSource={retensa_separation_type_distribution_csv}
-          chartType="pie"
+        <PieChart
+          dataSet={DataSource} // Use the main 'DataSource' for the dataSet prop
           dataOptions={{
             category: [retensa_separation_type_distribution_csv.separation_type],
             value: [retensa_separation_type_distribution_csv.count],
           }}
           styleOptions={{
-            width: '100%',
-            height: '200px',
+            legend: {
+              enabled: true,
+              position: 'bottom',
+            },
           }}
+          // Remove innerSize prop and use the callback instead
+          onBeforeRender={handleBeforeRender}
         />
       </div>
     </BaseKPIWidget>

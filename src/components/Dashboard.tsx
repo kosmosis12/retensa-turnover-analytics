@@ -3,9 +3,7 @@ import {
   ActivePopulationWidget,
   TurnoverRateWidget,
   AnnualizedTurnoverWidget,
-  TotalSeparationsWidget,
-  VoluntarySeparationsWidget,
-  InvoluntarySeparationsWidget,
+  SeparationsOverviewWidget,
   SeparationTypeDistributionWidget,
   TenureTurnoverWidget,
   RelativeDifferenceWidget,
@@ -13,14 +11,16 @@ import {
 } from './KPIWidgets';
 import './Dashboard.css';
 
+// Restored missing interface
 interface WidgetData {
   id: string;
   type: string;
   position: number;
 }
 
+// Restored missing interface
 interface DashboardProps {
-  // No props needed - widgets will connect directly to Sisense data model
+  // No props needed
 }
 
 const Dashboard: React.FC<DashboardProps> = () => {
@@ -28,15 +28,14 @@ const Dashboard: React.FC<DashboardProps> = () => {
     { id: 'active-population', type: 'ActivePopulation', position: 0 },
     { id: 'turnover-rate', type: 'TurnoverRate', position: 1 },
     { id: 'annualized-turnover', type: 'AnnualizedTurnover', position: 2 },
-    { id: 'total-separations', type: 'TotalSeparations', position: 3 },
-    { id: 'voluntary-separations', type: 'VoluntarySeparations', position: 4 },
-    { id: 'involuntary-separations', type: 'InvoluntarySeparations', position: 5 },
-    { id: 'separation-types', type: 'SeparationTypes', position: 6 },
-    { id: 'tenure-turnover', type: 'TenureTurnover', position: 7 },
-    { id: 'relative-difference', type: 'RelativeDifference', position: 8 },
-    { id: 'turnover-chart', type: 'SisenseChart', position: 9 },
+    { id: 'separations-overview', type: 'SeparationsOverview', position: 3 },
+    { id: 'separation-types', type: 'SeparationTypes', position: 4 },
+    { id: 'tenure-turnover', type: 'TenureTurnover', position: 5 },
+    { id: 'relative-difference', type: 'RelativeDifference', position: 6 },
+    { id: 'turnover-chart', type: 'SisenseChart', position: 7 },
   ]);
 
+  // Restored the handleWidgetMove function for drag-and-drop
   const handleWidgetMove = useCallback((dragId: string, targetId: string) => {
     setWidgetOrder(prevOrder => {
       const dragIndex = prevOrder.findIndex(widget => widget.id === dragId);
@@ -64,31 +63,18 @@ const Dashboard: React.FC<DashboardProps> = () => {
     switch (widget.type) {
       case 'ActivePopulation':
         return <ActivePopulationWidget {...commonProps} />;
-      
       case 'TurnoverRate':
         return <TurnoverRateWidget {...commonProps} />;
-      
       case 'AnnualizedTurnover':
         return <AnnualizedTurnoverWidget {...commonProps} />;
-      
-      case 'TotalSeparations':
-        return <TotalSeparationsWidget {...commonProps} />;
-      
-      case 'VoluntarySeparations':
-        return <VoluntarySeparationsWidget {...commonProps} />;
-      
-      case 'InvoluntarySeparations':
-        return <InvoluntarySeparationsWidget {...commonProps} />;
-      
+      case 'SeparationsOverview':
+        return <SeparationsOverviewWidget {...commonProps} />;
       case 'SeparationTypes':
         return <SeparationTypeDistributionWidget {...commonProps} />;
-      
       case 'TenureTurnover':
         return <TenureTurnoverWidget {...commonProps} />;
-      
       case 'RelativeDifference':
         return <RelativeDifferenceWidget {...commonProps} />;
-      
       case 'SisenseChart':
         return (
           <SisenseChartWidget
@@ -98,12 +84,12 @@ const Dashboard: React.FC<DashboardProps> = () => {
             measure="turnover_rate"
           />
         );
-      
       default:
         return null;
     }
   };
 
+  // Restored the missing return statement
   return (
     <div className="dashboard">
       <div className="dashboard__header">

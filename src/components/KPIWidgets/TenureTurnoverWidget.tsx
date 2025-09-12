@@ -1,7 +1,9 @@
 import React from 'react';
 import { Clock } from 'lucide-react';
 import { Chart } from '@sisense/sdk-ui';
-import { retensa_voluntary_turnover_by_tenure_csv } from '../../RetensaTurnoverAnalytics';
+import type { HighchartsOptions } from '@sisense/sdk-ui';
+// Import the main DataSource AS WELL AS the specific dimension
+import { DataSource, retensa_voluntary_turnover_by_tenure_csv } from '../../RetensaTurnoverAnalytics';
 import BaseKPIWidget from '../BaseKPIWidget';
 
 interface TenureTurnoverWidgetProps {
@@ -13,6 +15,20 @@ const TenureTurnoverWidget: React.FC<TenureTurnoverWidgetProps> = ({
   id,
   onMove
 }) => {
+  const handleBeforeRender = (options: HighchartsOptions) => {
+    options.plotOptions = {
+      ...options.plotOptions,
+      bar: {
+        ...options.plotOptions?.bar,
+        dataLabels: {
+          enabled: true,
+          format: '{point.y:.1f}%',
+        },
+      },
+    };
+    return options;
+  };
+
   return (
     <BaseKPIWidget
       id={id}
@@ -25,16 +41,15 @@ const TenureTurnoverWidget: React.FC<TenureTurnoverWidgetProps> = ({
     >
       <div style={{ marginTop: '16px', height: '200px' }}>
         <Chart
-          dataSource={retensa_voluntary_turnover_by_tenure_csv}
-          chartType="column"
+          dataSet={DataSource} // Use the main 'DataSource' for the dataSet prop
+          chartType="bar"
           dataOptions={{
+            // Use the specific dimension here to define the category and value
             category: [retensa_voluntary_turnover_by_tenure_csv.tenure_bucket],
             value: [retensa_voluntary_turnover_by_tenure_csv.voluntary_turnover_rate_pct],
           }}
-          styleOptions={{
-            width: '100%',
-            height: '200px',
-          }}
+          styleOptions={{}}
+          onBeforeRender={handleBeforeRender}
         />
       </div>
     </BaseKPIWidget>
