@@ -1,0 +1,10 @@
+export { default as ActivePopulationWidget } from './ActivePopulationWidget';
+export { default as TurnoverRateWidget } from './TurnoverRateWidget';
+export { default as AnnualizedTurnoverWidget } from './AnnualizedTurnoverWidget';
+export { default as TotalSeparationsWidget } from './TotalSeparationsWidget';
+export { default as VoluntarySeparationsWidget } from './VoluntarySeparationsWidget';
+export { default as InvoluntarySeparationsWidget } from './InvoluntarySeparationsWidget';
+export { default as SeparationTypeDistributionWidget } from './SeparationTypeDistributionWidget';
+export { default as TenureTurnoverWidget } from './TenureTurnoverWidget';
+export { default as RelativeDifferenceWidget } from './RelativeDifferenceWidget';
+export { default as SisenseChartWidget } from './SisenseChartWidget';
