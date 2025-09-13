@@ -2,7 +2,7 @@ import React from 'react';
 import { UserMinus } from 'lucide-react';
 import { Chart } from '@sisense/sdk-ui';
 import { measureFactory } from '@sisense/sdk-data';
-import { retensa_kpi_overview_csv } from '../../RetensaTurnoverAnalytics';
+import { DataSource, retensa_kpi_overview_csv } from '../../RetensaTurnoverAnalytics.ts';
 import BaseKPIWidget from '../BaseKPIWidget';
 
 interface VoluntarySeparationsWidgetProps {
@@ -26,7 +26,7 @@ const VoluntarySeparationsWidget: React.FC<VoluntarySeparationsWidgetProps> = ({
     >
       <div style={{ marginTop: '16px', height: '120px' }}>
         <Chart
-          dataSource={retensa_kpi_overview_csv}
+          dataSet={DataSource}
           chartType="indicator"
           dataOptions={{
             value: [measureFactory.sum(retensa_kpi_overview_csv.total_voluntary_separations)],
