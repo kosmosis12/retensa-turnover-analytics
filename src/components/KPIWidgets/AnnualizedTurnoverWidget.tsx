@@ -1,8 +1,8 @@
 import React from 'react';
 import { BarChart } from 'lucide-react';
-import { Chart } from '@sisense/sdk-ui';
+import { Chart, useExecuteQuery } from '@sisense/sdk-ui';
 import { measureFactory } from '@sisense/sdk-data';
-import { retensa_kpi_overview_csv } from '../../RetensaTurnoverAnalytics.ts';
+import { DataSource, retensa_kpi_overview_csv } from '../../RetensaTurnoverAnalytics.ts';
 import BaseKPIWidget from '../BaseKPIWidget';
 
 interface AnnualizedTurnoverWidgetProps {
@@ -10,15 +10,28 @@ interface AnnualizedTurnoverWidgetProps {
   onMove?: (dragId: string, targetId: string) => void;
 }
 
-const AnnualizedTurnoverWidget: React.FC<AnnualizedTurnoverWidgetProps> = ({
-  id,
-  onMove,
-}) => {
+const AnnualizedTurnoverWidget: React.FC<AnnualizedTurnoverWidgetProps> = ({ id, onMove }) => {
+  const { data, isLoading } = useExecuteQuery({
+    dataSource: DataSource,
+    measures: [
+      measureFactory.average(
+        retensa_kpi_overview_csv.annualized_turnover_rate_pct,
+        'Annualized Turnover',
+      ),
+    ],
+  });
+
+  const annualizedTurnover = data?.rows[0]?.[0]?.data ?? 0;
+
   return (
     <BaseKPIWidget
       id={id}
       title="Annualized Turnover"
-      value=""
+      value={
+        isLoading
+          ? 'Loading…'
+          : `${(annualizedTurnover as number).toFixed(1)}%`
+      }
       subtitle="Projected yearly rate"
       icon={<BarChart size={20} />}
       color="secondary"
@@ -26,12 +39,12 @@ const AnnualizedTurnoverWidget: React.FC<AnnualizedTurnoverWidgetProps> = ({
     >
       <div style={{ marginTop: '16px', height: '120px' }}>
         <Chart
-          dataSource={retensa_kpi_overview_csv}
+          dataSet={DataSource}
           chartType="indicator"
           dataOptions={{
             value: [
               measureFactory.average(
-                retensa_kpi_overview_csv.annualized_turnover_rate_pct
+                retensa_kpi_overview_csv.annualized_turnover_rate_pct,
               ),
             ],
           }}
@@ -46,3 +59,4 @@ const AnnualizedTurnoverWidget: React.FC<AnnualizedTurnoverWidgetProps> = ({
 };
 
 export default AnnualizedTurnoverWidget;
+

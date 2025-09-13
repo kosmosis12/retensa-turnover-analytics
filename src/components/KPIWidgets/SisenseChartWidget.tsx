@@ -20,14 +20,35 @@ const SisenseChartWidget: React.FC<SisenseChartWidgetProps> = ({
   measure,
   onMove,
 }) => {
-  // ✅ FIX: Restored the switch statement to return a valid measure
   const getMeasure = () => {
-    // ... (getMeasure function remains the same)
+    switch (measure) {
+      case 'active_population':
+        return measureFactory.sum(
+          retensa_kpi_overview_csv.active_population,
+          'Active Population',
+        );
+      case 'total_separations':
+        return measureFactory.sum(
+          retensa_kpi_overview_csv.total_separations,
+          'Total Separations',
+        );
+      case 'turnover_rate':
+      default:
+        return measureFactory.sum(
+          retensa_kpi_overview_csv.turnover_rate_pct,
+          'Turnover Rate',
+        );
+    }
   };
 
-  // ✅ FIX: Restored the logic to return a ReactNode
   const getIcon = () => {
-    // ... (getIcon function remains the same)
+    switch (chartType) {
+      case 'bar':
+        return <BarChart size={20} />;
+      case 'line':
+      default:
+        return <LineChart size={20} />;
+    }
   };
 
   return (
@@ -55,3 +76,4 @@ const SisenseChartWidget: React.FC<SisenseChartWidgetProps> = ({
 };
 
 export default SisenseChartWidget;
+
