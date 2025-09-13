@@ -1,21 +1,45 @@
 import React from 'react';
 import { LineChart } from 'lucide-react';
 import { Chart, type HighchartsOptions } from '@sisense/sdk-ui';
-import { measureFactory } from '@sisense/sdk-data'; // Re-add measureFactory
+import { measureFactory } from '@sisense/sdk-data';
 import {
   DataSource,
   retensa_kpi_overview_csv,
 } from '../../RetensaTurnoverAnalytics.ts';
 import BaseKPIWidget from '../BaseKPIWidget';
 
-// ... (interface remains the same)
+interface TurnoverTrendsWidgetProps {
+  id: string;
+  onMove?: (dragId: string, targetId: string) => void;
+}
 
 const TurnoverTrendsWidget: React.FC<TurnoverTrendsWidgetProps> = ({
   id,
   onMove,
 }) => {
   const handleBeforeRender = (options: HighchartsOptions) => {
-    // ... (styling function remains the same)
+    options.plotOptions = {
+      ...options.plotOptions,
+      line: {
+        ...options.plotOptions?.line,
+        dataLabels: {
+          enabled: true,
+          format: '{point.y:.1f}%',
+        },
+        marker: {
+          enabled: true,
+        },
+      },
+    };
+    
+    options.legend = {
+      ...options.legend,
+      enabled: true,
+      align: 'center',
+      verticalAlign: 'bottom',
+    };
+
+    return options;
   };
 
   return (
@@ -30,12 +54,11 @@ const TurnoverTrendsWidget: React.FC<TurnoverTrendsWidgetProps> = ({
     >
       <div style={{ height: '200px' }}>
         <Chart
-          dataSource={DataSource} // ✅ FIX 1: Correct prop name
+          dataSet={DataSource}
           chartType="line"
           dataOptions={{
             category: [retensa_kpi_overview_csv.timeframe_start],
             value: [
-              // ✅ FIX 2: Re-add measureFactory wrapper
               measureFactory.sum(
                 retensa_kpi_overview_csv.turnover_rate_pct,
                 'Turnover Rate'

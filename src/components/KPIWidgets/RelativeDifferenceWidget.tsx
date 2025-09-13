@@ -24,9 +24,9 @@ const RelativeDifferenceWidget: React.FC<RelativeDifferenceWidgetProps> = ({
       color="secondary"
       onMove={onMove}
     >
-      <div style={{ marginTop: '16px', height: '200px' }}>
+      <div style={{ height: '200px' }}>
         <Chart
-          dataSource={DataSource}
+          dataSet={DataSource}
           chartType="bar"
           dataOptions={{
             category: [
@@ -37,10 +37,6 @@ const RelativeDifferenceWidget: React.FC<RelativeDifferenceWidgetProps> = ({
                 retensa_relative_difference_by_tenure_csv.relative_difference_pct
               ),
             ],
-          }}
-          styleOptions={{
-            width: '100%',
-            height: '200px',
           }}
         />
       </div>
