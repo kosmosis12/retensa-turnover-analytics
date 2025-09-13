@@ -1,8 +1,7 @@
 import React from 'react';
 import { PieChart as PieChartIcon } from 'lucide-react';
-import { PieChart } from '@sisense/sdk-ui';
-import type { HighchartsOptions } from '@sisense/sdk-ui';
-// Import the main DataSource
+import { PieChart, type HighchartsOptions } from '@sisense/sdk-ui';
+import { measureFactory } from '@sisense/sdk-data';
 import {
   DataSource,
   retensa_separation_type_distribution_csv,
@@ -17,17 +16,15 @@ interface SeparationTypeDistributionWidgetProps {
 const SeparationTypeDistributionWidget: React.FC<
   SeparationTypeDistributionWidgetProps
 > = ({ id, onMove }) => {
-  // Define the callback function to customize chart options before rendering
   const handleBeforeRender = (options: HighchartsOptions) => {
-    // Safely set advanced options for the pie chart
     options.plotOptions = {
       ...options.plotOptions,
       pie: {
         ...options.plotOptions?.pie,
-        innerSize: '60%', // Set the innerSize here for the donut effect
+        innerSize: '60%',
         dataLabels: {
           enabled: true,
-          format: '{point.percentage:.1f}%', // Format to show percentage
+          format: '{point.percentage:.1f}%',
         },
       },
     };
@@ -46,12 +43,14 @@ const SeparationTypeDistributionWidget: React.FC<
     >
       <div style={{ marginTop: '16px', height: '200px' }}>
         <PieChart
-          dataSet={DataSource} // Use the main 'DataSource' for the dataSet prop
+          dataSet={DataSource}
           dataOptions={{
             category: [
               retensa_separation_type_distribution_csv.separation_type,
             ],
-            value: [retensa_separation_type_distribution_csv.count],
+            value: [
+              measureFactory.sum(retensa_separation_type_distribution_csv.count),
+            ],
           }}
           styleOptions={{
             legend: {
@@ -59,7 +58,6 @@ const SeparationTypeDistributionWidget: React.FC<
               position: 'bottom',
             },
           }}
-          // Remove innerSize prop and use the callback instead
           onBeforeRender={handleBeforeRender}
         />
       </div>
