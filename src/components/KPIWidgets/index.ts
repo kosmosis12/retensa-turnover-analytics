@@ -1,5 +1,5 @@
 export { default as ActivePopulationWidget } from './ActivePopulationWidget';
-export { default as TurnoverRateWidget } from './TurnoverRateWidget';
+export { default as TurnoverTrendsWidget } from './TurnoverTrendsWidget'
 export { default as AnnualizedTurnoverWidget } from './AnnualizedTurnoverWidget';
 export { default as SeparationsOverviewWidget } from './SeparationsOverviewWidget'; // ADD THIS
 export { default as SeparationTypeDistributionWidget } from './SeparationTypeDistributionWidget';

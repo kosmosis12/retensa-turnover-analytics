@@ -1,32 +1,29 @@
 import React, { useState, useCallback } from 'react';
 import {
   ActivePopulationWidget,
-  TurnoverRateWidget,
+  TurnoverTrendsWidget, // Changed from TurnoverRateWidget
   AnnualizedTurnoverWidget,
   SeparationsOverviewWidget,
   SeparationTypeDistributionWidget,
   TenureTurnoverWidget,
   RelativeDifferenceWidget,
-  SisenseChartWidget
+  SisenseChartWidget,
 } from './KPIWidgets';
 import './Dashboard.css';
 
-// Restored missing interface
 interface WidgetData {
   id: string;
   type: string;
   position: number;
 }
 
-// Restored missing interface
-interface DashboardProps {
-  // No props needed
-}
+interface DashboardProps {}
 
 const Dashboard: React.FC<DashboardProps> = () => {
   const [widgetOrder, setWidgetOrder] = useState<WidgetData[]>([
     { id: 'active-population', type: 'ActivePopulation', position: 0 },
-    { id: 'turnover-rate', type: 'TurnoverRate', position: 1 },
+    // VVV Update this widget entry VVV
+    { id: 'turnover-trends', type: 'TurnoverTrends', position: 1 },
     { id: 'annualized-turnover', type: 'AnnualizedTurnover', position: 2 },
     { id: 'separations-overview', type: 'SeparationsOverview', position: 3 },
     { id: 'separation-types', type: 'SeparationTypes', position: 4 },
@@ -35,7 +32,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
     { id: 'turnover-chart', type: 'SisenseChart', position: 7 },
   ]);
 
-  // Restored the handleWidgetMove function for drag-and-drop
   const handleWidgetMove = useCallback((dragId: string, targetId: string) => {
     setWidgetOrder(prevOrder => {
       const dragIndex = prevOrder.findIndex(widget => widget.id === dragId);
@@ -63,10 +59,12 @@ const Dashboard: React.FC<DashboardProps> = () => {
     switch (widget.type) {
       case 'ActivePopulation':
         return <ActivePopulationWidget {...commonProps} />;
-      case 'TurnoverRate':
-        return <TurnoverRateWidget {...commonProps} />;
+      // VVV Update this case VVV
+      case 'TurnoverTrends':
+        return <TurnoverTrendsWidget {...commonProps} />;
       case 'AnnualizedTurnover':
         return <AnnualizedTurnoverWidget {...commonProps} />;
+      // ... (rest of the cases remain the same)
       case 'SeparationsOverview':
         return <SeparationsOverviewWidget {...commonProps} />;
       case 'SeparationTypes':
@@ -89,7 +87,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
     }
   };
 
-  // Restored the missing return statement
   return (
     <div className="dashboard">
       <div className="dashboard__header">

@@ -1,55 +1,67 @@
 import React from 'react';
-import { Clock } from 'lucide-react';
+import { LineChart } from 'lucide-react';
 import { Chart, type HighchartsOptions } from '@sisense/sdk-ui';
 import { measureFactory } from '@sisense/sdk-data';
 import {
   DataSource,
-  retensa_voluntary_turnover_by_tenure_csv,
+  retensa_kpi_overview_csv,
 } from '../../RetensaTurnoverAnalytics.ts';
 import BaseKPIWidget from '../BaseKPIWidget';
 
-interface TenureTurnoverWidgetProps {
+interface TurnoverTrendsWidgetProps {
   id: string;
   onMove?: (dragId: string, targetId: string) => void;
 }
 
-const TenureTurnoverWidget: React.FC<TenureTurnoverWidgetProps> = ({
+const TurnoverTrendsWidget: React.FC<TurnoverTrendsWidgetProps> = ({
   id,
   onMove,
 }) => {
   const handleBeforeRender = (options: HighchartsOptions) => {
     options.plotOptions = {
       ...options.plotOptions,
-      bar: {
-        ...options.plotOptions?.bar,
+      line: {
+        ...options.plotOptions?.line,
         dataLabels: {
           enabled: true,
           format: '{point.y:.1f}%',
         },
+        marker: {
+          enabled: true,
+        },
       },
     };
+    
+    options.legend = {
+      ...options.legend,
+      enabled: true,
+      align: 'center',
+      verticalAlign: 'bottom',
+    };
+
     return options;
   };
 
   return (
     <BaseKPIWidget
       id={id}
-      title="Voluntary Turnover by Tenure"
+      title="Turnover Trends"
       value=""
-      subtitle="By tenure buckets"
-      icon={<Clock size={20} />}
-      color="warning"
+      subtitle="Monthly turnover rate over time"
+      icon={<LineChart size={20} />}
+      color="primary"
       onMove={onMove}
     >
       <div style={{ height: '200px' }}>
         <Chart
           dataSet={DataSource}
-          chartType="bar"
+          chartType="line"
           dataOptions={{
-            category: [retensa_voluntary_turnover_by_tenure_csv.tenure_bucket],
+            category: [retensa_kpi_overview_csv.timeframe_start],
             value: [
               measureFactory.sum(
-                retensa_voluntary_turnover_by_tenure_csv.voluntary_turnover_rate_pct
+                retensa_kpi_overview_csv.turnover_rate_pct,
+                'Turnover Rate'
               ),
             ],
           }}
@@ -60,4 +72,4 @@ const TenureTurnoverWidget: React.FC<TenureTurnoverWidgetProps> = ({
   );
 };
 
-export default TenureTurnoverWidget;
+export default TurnoverTrendsWidget;

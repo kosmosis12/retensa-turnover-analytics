@@ -20,6 +20,7 @@ const SisenseChartWidget: React.FC<SisenseChartWidgetProps> = ({
   measure,
   onMove,
 }) => {
+  // ✅ FIX: Restored the switch statement to return a valid measure
   const getMeasure = () => {
     switch (measure) {
       case 'turnover_rate':
@@ -43,6 +44,7 @@ const SisenseChartWidget: React.FC<SisenseChartWidgetProps> = ({
     }
   };
 
+  // ✅ FIX: Restored the logic to return a ReactNode
   const getIcon = () => {
     return chartType === 'line' ? (
       <LineChart size={20} />
@@ -61,17 +63,13 @@ const SisenseChartWidget: React.FC<SisenseChartWidgetProps> = ({
       color="primary"
       onMove={onMove}
     >
-      <div style={{ marginTop: '16px', height: '200px' }}>
+      <div style={{ height: '200px' }}>
         <Chart
           dataSet={DataSource}
           chartType={chartType}
           dataOptions={{
             category: [retensa_kpi_overview_csv.timeframe_start],
             value: [getMeasure()],
-          }}
-          styleOptions={{
-            width: '100%',
-            height: '200px',
           }}
         />
       </div>

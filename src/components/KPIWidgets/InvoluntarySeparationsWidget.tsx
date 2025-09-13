@@ -24,16 +24,12 @@ const InvoluntarySeparationsWidget: React.FC<InvoluntarySeparationsWidgetProps> 
       color="danger"
       onMove={onMove}
     >
-      <div style={{ marginTop: '16px', height: '120px' }}>
+      <div style={{ height: '120px' }}>
         <Chart
           dataSet={DataSource}
           chartType="indicator"
           dataOptions={{
             value: [measureFactory.sum(retensa_kpi_overview_csv.total_involuntary_separations)],
-          }}
-          styleOptions={{
-            width: '100%',
-            height: '120px',
           }}
         />
       </div>
