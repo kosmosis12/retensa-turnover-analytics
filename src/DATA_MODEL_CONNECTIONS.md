@@ -108,3 +108,4 @@ All KPI widgets now directly connect to the Sisense data model defined in `Reten
 3. Set `live: true` in data source configurations for production
 4. Add error handling for data connection failures
 5. Implement data refresh intervals if needed
+

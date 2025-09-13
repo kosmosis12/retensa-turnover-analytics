@@ -2,7 +2,7 @@ import React from 'react';
 import { LineChart, BarChart } from 'lucide-react';
 import { Chart } from '@sisense/sdk-ui';
 import { measureFactory } from '@sisense/sdk-data';
-import { retensa_kpi_overview_csv } from '../../RetensaTurnoverAnalytics.ts';
+import { DataSource, retensa_kpi_overview_csv } from '../../RetensaTurnoverAnalytics.ts';
 import BaseKPIWidget from '../BaseKPIWidget';
 
 interface SisenseChartWidgetProps {
@@ -63,7 +63,7 @@ const SisenseChartWidget: React.FC<SisenseChartWidgetProps> = ({
     >
       <div style={{ marginTop: '16px', height: '200px' }}>
         <Chart
-          dataSource={retensa_kpi_overview_csv}
+          dataSet={DataSource}
           chartType={chartType}
           dataOptions={{
             category: [retensa_kpi_overview_csv.timeframe_start],
