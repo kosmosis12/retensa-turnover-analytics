@@ -1,7 +1,7 @@
 import React from 'react';
 import { TrendingDown } from 'lucide-react';
 import { Chart } from '@sisense/sdk-ui';
-import { retensa_relative_difference_by_tenure_csv } from '../../RetensaTurnoverAnalytics';
+import { retensa_relative_difference_by_tenure_csv } from '../../RetensaTurnoverAnalytics.ts';
 import BaseKPIWidget from '../BaseKPIWidget';
 
 interface RelativeDifferenceWidgetProps {
@@ -11,7 +11,7 @@ interface RelativeDifferenceWidgetProps {
 
 const RelativeDifferenceWidget: React.FC<RelativeDifferenceWidgetProps> = ({
   id,
-  onMove
+  onMove,
 }) => {
   return (
     <BaseKPIWidget
@@ -28,8 +28,12 @@ const RelativeDifferenceWidget: React.FC<RelativeDifferenceWidgetProps> = ({
           dataSource={retensa_relative_difference_by_tenure_csv}
           chartType="bar"
           dataOptions={{
-            category: [retensa_relative_difference_by_tenure_csv.tenure_bucket],
-            value: [retensa_relative_difference_by_tenure_csv.relative_difference_pct],
+            category: [
+              retensa_relative_difference_by_tenure_csv.tenure_bucket,
+            ],
+            value: [
+              retensa_relative_difference_by_tenure_csv.relative_difference_pct,
+            ],
           }}
           styleOptions={{
             width: '100%',

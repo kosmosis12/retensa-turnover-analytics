@@ -2,7 +2,7 @@ import React from 'react';
 import { Users } from 'lucide-react';
 import { Chart } from '@sisense/sdk-ui';
 import { measureFactory } from '@sisense/sdk-data';
-import { retensa_kpi_overview_csv } from '../../RetensaTurnoverAnalytics';
+import { retensa_kpi_overview_csv } from '../../RetensaTurnoverAnalytics.ts';
 import BaseKPIWidget from '../BaseKPIWidget';
 
 interface ActivePopulationWidgetProps {
@@ -12,7 +12,7 @@ interface ActivePopulationWidgetProps {
 
 const ActivePopulationWidget: React.FC<ActivePopulationWidgetProps> = ({
   id,
-  onMove
+  onMove,
 }) => {
   return (
     <BaseKPIWidget
@@ -29,7 +29,9 @@ const ActivePopulationWidget: React.FC<ActivePopulationWidgetProps> = ({
           dataSource={retensa_kpi_overview_csv}
           chartType="indicator"
           dataOptions={{
-            value: [measureFactory.sum(retensa_kpi_overview_csv.active_population)],
+            value: [
+              measureFactory.sum(retensa_kpi_overview_csv.active_population),
+            ],
           }}
           styleOptions={{
             width: '100%',

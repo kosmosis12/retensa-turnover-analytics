@@ -3,7 +3,10 @@ import { PieChart as PieChartIcon } from 'lucide-react';
 import { PieChart } from '@sisense/sdk-ui';
 import type { HighchartsOptions } from '@sisense/sdk-ui';
 // Import the main DataSource
-import { DataSource, retensa_separation_type_distribution_csv } from '../../RetensaTurnoverAnalytics';
+import {
+  DataSource,
+  retensa_separation_type_distribution_csv,
+} from '../../RetensaTurnoverAnalytics.ts';
 import BaseKPIWidget from '../BaseKPIWidget';
 
 interface SeparationTypeDistributionWidgetProps {
@@ -11,10 +14,9 @@ interface SeparationTypeDistributionWidgetProps {
   onMove?: (dragId: string, targetId: string) => void;
 }
 
-const SeparationTypeDistributionWidget: React.FC<SeparationTypeDistributionWidgetProps> = ({
-  id,
-  onMove
-}) => {
+const SeparationTypeDistributionWidget: React.FC<
+  SeparationTypeDistributionWidgetProps
+> = ({ id, onMove }) => {
   // Define the callback function to customize chart options before rendering
   const handleBeforeRender = (options: HighchartsOptions) => {
     // Safely set advanced options for the pie chart
@@ -46,7 +48,9 @@ const SeparationTypeDistributionWidget: React.FC<SeparationTypeDistributionWidge
         <PieChart
           dataSet={DataSource} // Use the main 'DataSource' for the dataSet prop
           dataOptions={{
-            category: [retensa_separation_type_distribution_csv.separation_type],
+            category: [
+              retensa_separation_type_distribution_csv.separation_type,
+            ],
             value: [retensa_separation_type_distribution_csv.count],
           }}
           styleOptions={{

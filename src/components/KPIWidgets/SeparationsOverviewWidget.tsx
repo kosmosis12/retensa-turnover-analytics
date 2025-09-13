@@ -6,8 +6,8 @@ import type { HighchartsOptions } from '@sisense/sdk-ui';
 import {
   DataSource,
   retensa_kpi_overview_csv,
-  retensa_separation_type_distribution_csv
-} from '../../RetensaTurnoverAnalytics';
+  retensa_separation_type_distribution_csv,
+} from '../../RetensaTurnoverAnalytics.ts';
 import BaseKPIWidget from '../BaseKPIWidget';
 
 interface SeparationsOverviewWidgetProps {
@@ -17,12 +17,15 @@ interface SeparationsOverviewWidgetProps {
 
 const SeparationsOverviewWidget: React.FC<SeparationsOverviewWidgetProps> = ({
   id,
-  onMove
+  onMove,
 }) => {
   const { data, isLoading } = useExecuteQuery({
     dataSource: DataSource,
     measures: [
-        measureFactory.sum(retensa_kpi_overview_csv.total_separations, "Total Separations")
+      measureFactory.sum(
+        retensa_kpi_overview_csv.total_separations,
+        'Total Separations'
+      ),
     ],
   });
 
@@ -58,7 +61,9 @@ const SeparationsOverviewWidget: React.FC<SeparationsOverviewWidgetProps> = ({
         <PieChart
           dataSet={DataSource}
           dataOptions={{
-            category: [retensa_separation_type_distribution_csv.separation_type],
+            category: [
+              retensa_separation_type_distribution_csv.separation_type,
+            ],
             value: [retensa_separation_type_distribution_csv.count],
           }}
           styleOptions={{

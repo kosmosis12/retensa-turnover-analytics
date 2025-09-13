@@ -2,7 +2,7 @@ import React from 'react';
 import { TrendingUp } from 'lucide-react';
 import { Chart } from '@sisense/sdk-ui';
 import { measureFactory } from '@sisense/sdk-data';
-import { retensa_kpi_overview_csv } from '../../RetensaTurnoverAnalytics';
+import { retensa_kpi_overview_csv } from '../../RetensaTurnoverAnalytics.ts';
 import BaseKPIWidget from '../BaseKPIWidget';
 
 interface TurnoverRateWidgetProps {
@@ -12,7 +12,7 @@ interface TurnoverRateWidgetProps {
 
 const TurnoverRateWidget: React.FC<TurnoverRateWidgetProps> = ({
   id,
-  onMove
+  onMove,
 }) => {
   return (
     <BaseKPIWidget
@@ -29,7 +29,11 @@ const TurnoverRateWidget: React.FC<TurnoverRateWidgetProps> = ({
           dataSource={retensa_kpi_overview_csv}
           chartType="indicator"
           dataOptions={{
-            value: [measureFactory.average(retensa_kpi_overview_csv.turnover_rate_pct)],
+            value: [
+              measureFactory.average(
+                retensa_kpi_overview_csv.turnover_rate_pct
+              ),
+            ],
           }}
           styleOptions={{
             width: '100%',

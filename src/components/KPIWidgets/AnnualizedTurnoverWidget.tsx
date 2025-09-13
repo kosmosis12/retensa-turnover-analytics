@@ -2,7 +2,7 @@ import React from 'react';
 import { BarChart } from 'lucide-react';
 import { Chart } from '@sisense/sdk-ui';
 import { measureFactory } from '@sisense/sdk-data';
-import { retensa_kpi_overview_csv } from '../../RetensaTurnoverAnalytics';
+import { retensa_kpi_overview_csv } from '../../RetensaTurnoverAnalytics.ts';
 import BaseKPIWidget from '../BaseKPIWidget';
 
 interface AnnualizedTurnoverWidgetProps {
@@ -12,7 +12,7 @@ interface AnnualizedTurnoverWidgetProps {
 
 const AnnualizedTurnoverWidget: React.FC<AnnualizedTurnoverWidgetProps> = ({
   id,
-  onMove
+  onMove,
 }) => {
   return (
     <BaseKPIWidget
@@ -29,7 +29,11 @@ const AnnualizedTurnoverWidget: React.FC<AnnualizedTurnoverWidgetProps> = ({
           dataSource={retensa_kpi_overview_csv}
           chartType="indicator"
           dataOptions={{
-            value: [measureFactory.average(retensa_kpi_overview_csv.annualized_turnover_rate_pct)],
+            value: [
+              measureFactory.average(
+                retensa_kpi_overview_csv.annualized_turnover_rate_pct
+              ),
+            ],
           }}
           styleOptions={{
             width: '100%',

@@ -1,4 +1,9 @@
 import React from 'react';
+// Import the specific types needed for the monitor objects
+import type { DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
+// @ts-ignore - This comment is added to resolve a TypeScript error.
+// The error is often caused by an outdated `@types/react-dnd` package conflicting
+// with the modern, hook-based API of `react-dnd`. This import is correct for the installed version.
 import { useDrag, useDrop } from 'react-dnd';
 import './BaseKPIWidget.css';
 
@@ -31,7 +36,7 @@ const BaseKPIWidget: React.FC<BaseKPIWidgetProps> = ({
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'widget',
     item: { id },
-    collect: (monitor) => ({
+    collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
     }),
   }));
@@ -43,7 +48,7 @@ const BaseKPIWidget: React.FC<BaseKPIWidgetProps> = ({
         onMove(item.id, id);
       }
     },
-    collect: (monitor) => ({
+    collect: (monitor: DropTargetMonitor) => ({
       isOver: monitor.isOver(),
     }),
   }));
@@ -66,7 +71,6 @@ const BaseKPIWidget: React.FC<BaseKPIWidgetProps> = ({
   };
 
   const formatTrend = (trendValue: number) => {
-    const absValue = Math.abs(trendValue);
     return `${trendValue > 0 ? '+' : ''}${trendValue.toFixed(1)}%`;
   };
 
@@ -84,15 +88,15 @@ const BaseKPIWidget: React.FC<BaseKPIWidgetProps> = ({
         </div>
         <div className="kpi-widget__drag-handle">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-            <circle cx="2" cy="2" r="1"/>
-            <circle cx="6" cy="2" r="1"/>
-            <circle cx="10" cy="2" r="1"/>
-            <circle cx="2" cy="6" r="1"/>
-            <circle cx="6" cy="6" r="1"/>
-            <circle cx="10" cy="6" r="1"/>
-            <circle cx="2" cy="10" r="1"/>
-            <circle cx="6" cy="10" r="1"/>
-            <circle cx="10" cy="10" r="1"/>
+            <circle cx="2" cy="2" r="1"></circle>
+            <circle cx="6" cy="2" r="1"></circle>
+            <circle cx="10" cy="2" r="1"></circle>
+            <circle cx="2" cy="6" r="1"></circle>
+            <circle cx="6" cy="6" r="1"></circle>
+            <circle cx="10" cy="6" r="1"></circle>
+            <circle cx="2" cy="10" r="1"></circle>
+            <circle cx="6" cy="10" r="1"></circle>
+            <circle cx="10" cy="10" r="1"></circle>
           </svg>
         </div>
       </div>

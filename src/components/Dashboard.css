@@ -1,7 +1,44 @@
+/* src/components/Dashboard.css */
+
+:root {
+  --background-dark: #1e1e2d;
+  --card-background: #27293d;
+  --text-light: #e0e0e0;
+  --text-muted: #8a91a1;
+  --primary-color: #6a40ef; /* Sisense Blue-Purple */
+  --secondary-color: #00bcd4; /* Teal */
+  --warning-color: #ff9800; /* Orange */
+  --danger-color: #f44336; /* Red */
+  --success-color: #4caf50; /* Green */
+
+  /* Modern Color Palette (inspired by your first example) */
+  --chart-color-1: #6a40ef; /* Purple */
+  --chart-color-2: #2196f3; /* Blue */
+  --chart-color-3: #4caf50; /* Green */
+  --chart-color-4: #ffeb3b; /* Yellow */
+  --chart-color-5: #ff9800; /* Orange */
+  --chart-color-6: #f44336; /* Red */
+  --chart-color-7: #00bcd4; /* Teal */
+  --chart-color-8: #9c27b0; /* Dark Purple */
+  --chart-color-9: #795548; /* Brown */
+  --chart-color-10: #607d8b; /* Blue Grey */
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-dark);
+  color: var(--text-light);
+}
+
 .dashboard {
-  min-height: 100vh;
   padding: 24px;
-  background: var(--background-color);
+  max-width: 1400px; /* Constrain width for better layout on large screens */
+  margin: 0 auto;
 }
 
 .dashboard__header {
@@ -10,67 +47,130 @@
 }
 
 .dashboard__title {
-  font-size: 2.5rem;
+  font-size: 2.5rem; /* Larger title */
   font-weight: 700;
-  color: var(--text-primary);
-  margin: 0 0 8px 0;
-  letter-spacing: -0.025em;
+  color: var(--text-light);
+  margin-bottom: 8px;
 }
 
 .dashboard__subtitle {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  margin: 0;
-  font-weight: 400;
+  font-size: 1.1rem;
+  color: var(--text-muted);
 }
 
 .dashboard__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+  gap: 20px; /* Reduced gap */
 }
 
 .dashboard__widget {
-  min-height: 180px;
+  background-color: var(--card-background);
+  border-radius: 12px;
+  padding: 20px; /* Reduced padding */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensures content pushes to top/bottom */
+  min-height: 200px; /* Ensure a consistent minimum height for all widgets */
 }
 
-/* Responsive grid adjustments */
-@media (max-width: 768px) {
-  .dashboard {
-    padding: 16px;
-  }
-  
-  .dashboard__title {
-    font-size: 2rem;
-  }
-  
-  .dashboard__grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
+/* BaseKPIWidget specific styles */
+.kpi-widget {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Make sure BaseKPIWidget fills its container */
 }
 
-@media (min-width: 1200px) {
-  .dashboard__grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+.kpi-widget__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
-@media (min-width: 1600px) {
-  .dashboard__grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
+.kpi-widget__icon {
+  background-color: var(--primary-color); /* Default icon background */
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  color: var(--text-light);
 }
 
-/* Drag and drop visual feedback */
-.dashboard__widget--dragging {
-  opacity: 0.5;
-  transform: rotate(2deg);
+.kpi-widget__icon.color-primary { background-color: var(--primary-color); }
+.kpi-widget__icon.color-secondary { background-color: var(--secondary-color); }
+.kpi-widget__icon.color-warning { background-color: var(--warning-color); }
+.kpi-widget__icon.color-danger { background-color: var(--danger-color); }
+.kpi-widget__icon.color-success { background-color: var(--success-color); }
+
+
+.kpi-widget__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px; /* Adjust spacing */
 }
 
-.dashboard__widget--drag-over {
-  border: 2px dashed var(--primary-color);
-  background-color: rgba(37, 99, 235, 0.05);
+.kpi-widget__value {
+  font-size: 2.8rem; /* Larger number size */
+  font-weight: 700;
+  color: var(--text-light);
+  line-height: 1; /* Adjust line height for large numbers */
+  margin-bottom: 4px; /* Adjust spacing */
+}
+
+.kpi-widget__subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 16px; /* Space before chart/content */
+}
+
+.kpi-widget__content {
+  flex-grow: 1; /* Make content area fill available space */
+  display: flex;
+  align-items: center; /* Center chart vertically if it doesn't fill */
+  justify-content: center; /* Center chart horizontally */
+}
+
+/* Adjust chart container div for better embedding */
+.kpi-widget__content > div {
+  width: 100%;
+  height: 100%;
+  min-height: 120px; /* Ensure chart area has some height */
+}
+
+
+/* Specific adjustments for widgets with charts */
+.kpi-widget .highcharts-container {
+  font-family: 'Inter', sans-serif !important; /* Ensure chart text uses Inter */
+}
+
+.kpi-widget .highcharts-data-label {
+    font-size: 0.9rem !important; /* Make data labels larger */
+    font-weight: 600 !important;
+    fill: var(--text-light) !important; /* White text for labels */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Add text shadow for visibility */
+}
+
+/* Ensure legend items are readable */
+.kpi-widget .highcharts-legend-item text {
+    fill: var(--text-muted) !important;
+    font-size: 0.8rem !important;
+}
+
+/* Styles for SisenseChartWidget specific items (if needed) */
+.sisense-chart-widget {
+  flex-grow: 1;
+  height: 100%;
+  padding: 0; /* Remove padding if BaseKPIWidget already has it */
+}
+
+.sisense-chart-widget .kpi-widget__title,
+.sisense-chart-widget .kpi-widget__subtitle {
+    text-align: left;
+    margin-left: 0;
 }
